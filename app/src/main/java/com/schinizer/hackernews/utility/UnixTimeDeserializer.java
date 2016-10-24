@@ -1,4 +1,4 @@
-package com.schinizer.hackernews;
+package com.schinizer.hackernews.utility;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -15,6 +15,6 @@ import java.util.Date;
 public class UnixTimeDeserializer implements JsonDeserializer<Date> {
     public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
-        return new Date(json.getAsLong() * 1000);
+        return new Date(json.getAsLong() * 1000); // Data is in seconds, Date() needs milliseconds
     }
 }

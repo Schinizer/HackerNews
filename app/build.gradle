@@ -3,7 +3,7 @@ apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "com.schinizer.hackernews"
         minSdkVersion 9
@@ -48,7 +48,14 @@ dependencies {
 
     apt "com.google.dagger:dagger-compiler:${daggerVersion}"
     compile "com.google.dagger:dagger:${daggerVersion}"
+
     provided "javax.annotation:jsr250-api:1.0"
+
+    apt 'com.google.auto.value:auto-value:1.3'
+    provided 'com.jakewharton.auto.value:auto-value-annotations:1.3'
+    apt 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
+    apt 'com.ryanharter.auto.value:auto-value-gson:0.4.3'
+    provided 'com.ryanharter.auto.value:auto-value-gson:0.4.3'
 
     compile "com.google.code.gson:gson:${gsonVersion}"
     compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"

@@ -1,270 +1,50 @@
 package com.schinizer.hackernews;
 
-import com.google.gson.annotations.Expose;
+import android.os.Parcelable;
+
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Item {
+@AutoValue
+public abstract class Item implements Parcelable {
 
     @SerializedName("by")
-    @Expose
-    private String by;
+    public abstract String by();
     @SerializedName("descendants")
-    @Expose
-    private Integer descendants;
+    public abstract Integer descendants();
     @SerializedName("id")
-    @Expose
-    private Integer id;
+    public abstract Integer id();
     @SerializedName("deleted")
-    @Expose
-    private Boolean deleted;
+    public abstract Boolean deleted();
     @SerializedName("dead")
-    @Expose
-    private Boolean dead;
+    public abstract Boolean dead();
     @SerializedName("parent")
-    @Expose
-    private Integer parent;
+    public abstract Integer parent();
     @SerializedName("kids")
-    @Expose
-    private List<Integer> kids = new ArrayList<Integer>();
+    public abstract List<Integer> kids();
     @SerializedName("parts")
-    @Expose
-    private List<Integer> parts = new ArrayList<Integer>();
+    public abstract List<Integer> parts();
     @SerializedName("score")
-    @Expose
-    private Integer score;
+    public abstract Integer score();
     @SerializedName("text")
-    @Expose
-    private String text;
+    public abstract String text();
     @SerializedName("time")
-    @Expose
-    private Date time;
+    public abstract Date time();
     @SerializedName("title")
-    @Expose
-    private String title;
+    public abstract String title();
     @SerializedName("type")
-    @Expose
-    private String type;
+    public abstract String type();
     @SerializedName("url")
-    @Expose
-    private String url;
+    public abstract String url();
 
-    /**
-     * @return The by
-     */
-    public String getBy() {
-        return by;
-    }
-
-    /**
-     * @param by The by
-     */
-    public void setBy(String by) {
-        this.by = by;
-    }
-
-    /**
-     * @return The descendants
-     */
-    public Integer getDescendants() {
-        return descendants;
-    }
-
-    /**
-     * @param descendants The descendants
-     */
-    public void setDescendants(Integer descendants) {
-        this.descendants = descendants;
-    }
-
-    /**
-     * @return The id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * @param id The id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * @return The deleted
-     */
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    /**
-     * @param deleted The deleted
-     */
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    /**
-     * @return The dead
-     */
-    public Boolean getDead() {
-        return dead;
-    }
-
-    /**
-     * @param dead The dead
-     */
-    public void setDead(Boolean dead) {
-        this.dead = dead;
-    }
-
-    /**
-     * @return The parent
-     */
-    public Integer getParent() {
-        return parent;
-    }
-
-    /**
-     * @param parent The parent
-     */
-    public void setParent(Integer parent) {
-        this.parent = parent;
-    }
-
-    /**
-     * @return The kids
-     */
-    public List<Integer> getKids() {
-        return kids;
-    }
-
-    /**
-     * @param kids The kids
-     */
-    public void setKids(List<Integer> kids) {
-        this.kids = kids;
-    }
-
-    /**
-     * @return The parts
-     */
-    public List<Integer> getParts() {
-        return parts;
-    }
-
-    /**
-     * @param parts The parts
-     */
-    public void setParts(List<Integer> parts) {
-        this.parts = parts;
-    }
-
-    /**
-     * @return The score
-     */
-    public Integer getScore() {
-        return score;
-    }
-
-    /**
-     * @param score The score
-     */
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
-    /**
-     * @return The text
-     */
-    public String getText() {
-        return text;
-    }
-
-    /**
-     * @param text The text
-     */
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    /**
-     * @return The time
-     */
-    public Date getTime() {
-        return time;
-    }
-
-    /**
-     * @param time The time
-     */
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
-    /**
-     * @return The title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * @param title The title
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * @return The type
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * @param type The type
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * @return The url
-     */
-    public String getUrl() {
-        return url;
-    }
-
-    /**
-     * @param url The url
-     */
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "by='" + by + '\'' +
-                ", descendants=" + descendants +
-                ", id=" + id +
-                ", deleted=" + deleted +
-                ", dead=" + dead +
-                ", parent=" + parent +
-                ", kids=" + kids +
-                ", parts=" + parts +
-                ", score=" + score +
-                ", text='" + text + '\'' +
-                ", time=" + time +
-                ", title='" + title + '\'' +
-                ", type='" + type + '\'' +
-                ", url='" + url + '\'' +
-                '}';
+    // The public static method returning a TypeAdapter<Foo> is what
+    // tells auto-value-gson to create a TypeAdapter for Foo.
+    public static TypeAdapter<Item> typeAdapter(Gson gson) {
+        return new AutoValue_Item.GsonTypeAdapter(gson);
     }
 }
