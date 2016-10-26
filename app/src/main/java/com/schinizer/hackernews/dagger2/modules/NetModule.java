@@ -5,9 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.schinizer.hackernews.BuildConfig;
 import com.schinizer.hackernews.utility.AutoValueAdapterFactory;
-import com.schinizer.hackernews.utility.UnixTimeDeserializer;
-
-import java.util.Date;
+import com.schinizer.hackernews.utility.schedulers.BaseSchedulerProvider;
 
 import javax.inject.Singleton;
 
@@ -16,7 +14,6 @@ import dagger.Provides;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by DPSUser on 10/14/2016.
@@ -30,7 +27,6 @@ public class NetModule {
     Gson provideGson()
     {
         return new GsonBuilder()
-                .registerTypeAdapter(Date.class, new UnixTimeDeserializer())
                 .registerTypeAdapterFactory(AutoValueAdapterFactory.create())
                 .create();
     }
@@ -54,9 +50,9 @@ public class NetModule {
 
     @Provides
     @Singleton
-    RxJavaCallAdapterFactory providesRxJavaCallAdapterFactory()
+    RxJavaCallAdapterFactory providesRxJavaCallAdapterFactory(BaseSchedulerProvider schedulerProvider)
     {
-        return RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
+        return RxJavaCallAdapterFactory.createWithScheduler(schedulerProvider.io());
     }
 
     @Provides

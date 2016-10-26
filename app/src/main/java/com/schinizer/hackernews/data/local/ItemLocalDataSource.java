@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.schinizer.hackernews.Item;
+import com.schinizer.hackernews.data.Item;
 import com.schinizer.hackernews.data.ItemDataSource;
 
 import java.util.List;
@@ -39,8 +39,8 @@ public class ItemLocalDataSource implements ItemDataSource {
     }
 
     @Override
-    public Observable<List<Integer>> getTop100Stories() {
-        List<Integer> data = gson.fromJson(sharedPreferences.getString("top100Stories", ""), new TypeToken<List<Integer>>(){}.getType());
+    public Observable<List<Integer>> getTop500Stories() {
+        List<Integer> data = gson.fromJson(sharedPreferences.getString("top500Stories", ""), new TypeToken<List<Integer>>(){}.getType());
         return Observable.just(data);
     }
 
@@ -71,7 +71,12 @@ public class ItemLocalDataSource implements ItemDataSource {
     @Override
     public void saveTop100Stories(@NonNull List<Integer> ids) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("top100Stories", gson.toJson(ids));
+        editor.putString("top500Stories", gson.toJson(ids));
         editor.apply();
+    }
+
+    @Override
+    public void refreshTop500Stories() {
+
     }
 }

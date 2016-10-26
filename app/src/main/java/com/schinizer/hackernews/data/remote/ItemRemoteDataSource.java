@@ -3,7 +3,7 @@ package com.schinizer.hackernews.data.remote;
 import android.support.annotation.NonNull;
 
 import com.schinizer.hackernews.HackerNewsAPI;
-import com.schinizer.hackernews.Item;
+import com.schinizer.hackernews.data.Item;
 import com.schinizer.hackernews.data.ItemDataSource;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public class ItemRemoteDataSource implements ItemDataSource {
     }
 
     @Override
-    public Observable<List<Integer>> getTop100Stories() {
+    public Observable<List<Integer>> getTop500Stories() {
         return api.top500Stories();
     }
 
@@ -62,6 +62,11 @@ public class ItemRemoteDataSource implements ItemDataSource {
 
     @Override
     public void saveTop100Stories(@NonNull List<Integer> ids) {
+
+    }
+
+    @Override
+    public void refreshTop500Stories() {
 
     }
 }
