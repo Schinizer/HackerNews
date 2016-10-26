@@ -16,6 +16,7 @@ public interface NewsFeedContract {
     {
         void populateView(List<Item> stories);
         void clearView();
+        void showNetworkError();
     }
 
     interface Presenter extends BasePresenter

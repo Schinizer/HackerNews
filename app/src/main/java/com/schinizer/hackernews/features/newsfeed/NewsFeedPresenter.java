@@ -68,7 +68,8 @@ public class NewsFeedPresenter implements NewsFeedContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("network", "subscription error", e);
+                        Log.e("Item Repository", "Subscription OnError()", e);
+                        view.showNetworkError();
                     }
 
                     @Override
@@ -102,7 +103,8 @@ public class NewsFeedPresenter implements NewsFeedContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("network", "subscription error", e);
+                        Log.e("Item Repository", "Subscription OnError()", e);
+                        view.showNetworkError();
                     }
 
                     @Override

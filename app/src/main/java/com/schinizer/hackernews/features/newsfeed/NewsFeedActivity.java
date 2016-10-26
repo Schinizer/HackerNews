@@ -1,6 +1,7 @@
 package com.schinizer.hackernews.features.newsfeed;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,8 +45,6 @@ public class NewsFeedActivity extends AppCompatActivity implements NewsFeedContr
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        presenter.subscribe();
-
         recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -55,6 +54,18 @@ public class NewsFeedActivity extends AppCompatActivity implements NewsFeedContr
         });
 
         recyclerView.setupMoreListener(this, 10);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unsubscribe();
     }
 
     @Override
@@ -73,5 +84,12 @@ public class NewsFeedActivity extends AppCompatActivity implements NewsFeedContr
     @Override
     public void clearView() {
         adapter.clearItems();
+    }
+
+    @Override
+    public void showNetworkError() {
+        Snackbar.make(findViewById(android.R.id.content), "Something went wrong..", Snackbar.LENGTH_LONG)
+                .show();
+        recyclerView.getSwipeToRefresh().setRefreshing(false);
     }
 }
