@@ -3,14 +3,13 @@ package com.schinizer.hackernews;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;
-import com.schinizer.hackernews.dagger2.components.DaggerItemRepositoryComponent;
-import com.schinizer.hackernews.dagger2.components.ItemRepositoryComponent;
-import com.schinizer.hackernews.dagger2.modules.APIModule;
-import com.schinizer.hackernews.dagger2.modules.AndroidAPIModule;
-import com.schinizer.hackernews.dagger2.modules.AppModule;
-import com.schinizer.hackernews.dagger2.modules.ItemDataSourceModule;
-import com.schinizer.hackernews.dagger2.modules.NetModule;
-import com.schinizer.hackernews.dagger2.modules.SchedulersModule;
+import com.schinizer.hackernews.data.APIModule;
+import com.schinizer.hackernews.data.AndroidAPIModule;
+import com.schinizer.hackernews.data.DaggerItemRepositoryComponent;
+import com.schinizer.hackernews.data.ItemDataSourceModule;
+import com.schinizer.hackernews.data.ItemRepositoryComponent;
+import com.schinizer.hackernews.data.NetModule;
+import com.schinizer.hackernews.utility.schedulers.SchedulersModule;
 
 /**
  * Created by DPSUser on 10/14/2016.

@@ -1,4 +1,4 @@
-package com.schinizer.hackernews.dagger2.modules;
+package com.schinizer.hackernews.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;

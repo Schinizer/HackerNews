@@ -1,4 +1,4 @@
-package com.schinizer.hackernews.dagger2.modules;
+package com.schinizer.hackernews.data;
 
 /**
  * Created by DPSUser on 10/14/2016.

@@ -1,18 +1,18 @@
-package com.schinizer.hackernews.dagger2.scopes;
+package com.schinizer.hackernews.utility;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import javax.inject.Qualifier;
+import javax.inject.Scope;
 
 /**
- * Created by DPSUser on 10/19/2016.
+ * Created by DPSUser on 10/25/2016.
  */
 
-@Qualifier
+@Scope
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Remote {
+public @interface ActivityScoped {
 
 }

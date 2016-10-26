@@ -1,4 +1,4 @@
-package com.schinizer.hackernews.dagger2.scopes;
+package com.schinizer.hackernews.data;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -13,6 +13,6 @@ import javax.inject.Qualifier;
 @Qualifier
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Local {
+public @interface Remote {
 
 }

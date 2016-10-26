@@ -3,9 +3,6 @@ package com.schinizer.hackernews.data;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 
-import com.schinizer.hackernews.dagger2.scopes.Local;
-import com.schinizer.hackernews.dagger2.scopes.Remote;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;

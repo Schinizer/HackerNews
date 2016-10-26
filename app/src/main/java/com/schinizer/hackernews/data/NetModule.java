@@ -1,4 +1,4 @@
-package com.schinizer.hackernews.dagger2.modules;
+package com.schinizer.hackernews.data;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;

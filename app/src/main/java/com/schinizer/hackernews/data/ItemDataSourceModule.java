@@ -1,12 +1,9 @@
-package com.schinizer.hackernews.dagger2.modules;
+package com.schinizer.hackernews.data;
 
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.schinizer.hackernews.HackerNewsAPI;
-import com.schinizer.hackernews.dagger2.scopes.Local;
-import com.schinizer.hackernews.dagger2.scopes.Remote;
-import com.schinizer.hackernews.data.ItemDataSource;
 import com.schinizer.hackernews.data.local.ItemLocalDataSource;
 import com.schinizer.hackernews.data.remote.ItemRemoteDataSource;
 

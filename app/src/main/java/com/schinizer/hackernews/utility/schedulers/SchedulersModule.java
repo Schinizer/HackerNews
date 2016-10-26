@@ -1,7 +1,4 @@
-package com.schinizer.hackernews.dagger2.modules;
-
-import com.schinizer.hackernews.utility.schedulers.BaseSchedulerProvider;
-import com.schinizer.hackernews.utility.schedulers.SchedulerProvider;
+package com.schinizer.hackernews.utility.schedulers;
 
 import dagger.Module;
 import dagger.Provides;

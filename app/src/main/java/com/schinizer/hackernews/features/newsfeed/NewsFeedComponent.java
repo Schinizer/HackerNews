@@ -1,8 +1,8 @@
 package com.schinizer.hackernews.features.newsfeed;
 
-import com.schinizer.hackernews.dagger2.components.ItemRepositoryComponent;
-import com.schinizer.hackernews.dagger2.modules.SchedulersModule;
-import com.schinizer.hackernews.dagger2.scopes.ActivityScoped;
+import com.schinizer.hackernews.data.ItemRepositoryComponent;
+import com.schinizer.hackernews.utility.schedulers.SchedulersModule;
+import com.schinizer.hackernews.utility.ActivityScoped;
 
 import dagger.Component;
 
