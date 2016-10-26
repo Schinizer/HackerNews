@@ -1,5 +1,7 @@
 package com.schinizer.hackernews;
 
+import com.schinizer.hackernews.data.Item;
+
 import java.util.List;
 
 import retrofit2.http.GET;

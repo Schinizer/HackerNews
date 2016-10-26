@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.text.format.DateUtils"/>
+        <import type="java.util.Calendar"/>
+        <import type="android.net.Uri"/>
+        <variable name="story" type="com.schinizer.hackernews.data.Item"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:clickable="true"
+        android:background="@drawable/selectable_accent_background">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{story.title()}"
+                tools:text="Poor kids who do things right don't do better than rich kids who do things wrong"
+                style="@style/TextAppearance.AppCompat.Body1"/>
+
+            <TextView
+                android:id="@+id/host"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@{Uri.parse(story.url() ?? ``).getHost()}"
+                tools:text="washingtonpost.com"
+                style="@style/TextAppearance.AppCompat.Caption"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:tint="@color/cardview_light_background"
+                    android:src="@drawable/ic_person"/>
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@{story.by()}"
+                    tools:text="paulpauper"
+                    style="@style/TextAppearance.AppCompat.Caption"/>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:tint="@color/cardview_light_background"
+                    android:src="@drawable/ic_access_time"/>
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
+                    android:text="@{DateUtils.getRelativeTimeSpanString((Long)(story.time() * 1000L), Calendar.getInstance().getTimeInMillis(), DateUtils.SECOND_IN_MILLIS, 0)}"
+                    tools:text="8 hrs"
+                    style="@style/TextAppearance.AppCompat.Caption"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:tint="@color/cardview_light_background"
+                    android:src="@drawable/ic_thumb_up"/>
+
+                <TextView
+                    android:id="@+id/score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="@{story.score().toString()}"
+                    tools:text="200"
+                    style="@style/TextAppearance.AppCompat.Subhead"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:tint="@color/cardview_light_background"
+                    android:src="@drawable/ic_comment"/>
+
+                <TextView
+                    android:id="@+id/comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="@{story.descendants().toString()}"
+                    tools:text="20"
+                    style="@style/TextAppearance.AppCompat.Subhead"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

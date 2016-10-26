@@ -1,8 +1,8 @@
 package com.schinizer.hackernews.data;
 
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 
-import com.schinizer.hackernews.Item;
 import com.schinizer.hackernews.dagger2.scopes.Local;
 import com.schinizer.hackernews.dagger2.scopes.Remote;
 
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 import javax.inject.Inject;
 
@@ -28,7 +27,7 @@ public class ItemRepository implements ItemDataSource {
     private ItemDataSource itemLocalDataSource;
     private ItemDataSource itemRemoteDataSource;
 
-    private Map<Integer, Item> cachedItems = new LinkedHashMap<>();
+    private Map<Integer, Pair<Item, Boolean>> cachedItems = new LinkedHashMap<>(); // Pair with boolean to notify repository the need to refresh
     private List<Integer> cachedTop100Stories = new ArrayList<>();
 
     private Boolean cacheIsDirty = false;
@@ -41,7 +40,7 @@ public class ItemRepository implements ItemDataSource {
     }
 
     @Override
-    public Observable<List<Integer>> getTop100Stories() {
+    public Observable<List<Integer>> getTop500Stories() {
 
         if (cachedTop100Stories != null && !cacheIsDirty) {
             return Observable.just(cachedTop100Stories);
@@ -65,7 +64,7 @@ public class ItemRepository implements ItemDataSource {
     }
 
     private Observable<List<Integer>> getAndCacheLocalTop100Stories() {
-        return itemLocalDataSource.getTop100Stories()
+        return itemLocalDataSource.getTop500Stories()
                 .doOnNext(new Action1<List<Integer>>() {
                     @Override
                     public void call(List<Integer> ids) {
@@ -76,7 +75,7 @@ public class ItemRepository implements ItemDataSource {
     }
 
     private Observable<List<Integer>> getAndSaveRemoteTop100Stories() {
-        return itemRemoteDataSource.getTop100Stories()
+        return itemRemoteDataSource.getTop500Stories()
                 .doOnNext(new Action1<List<Integer>>() {
                     @Override
                     public void call(List<Integer> ids) {
@@ -93,6 +92,13 @@ public class ItemRepository implements ItemDataSource {
                 });
     }
 
+    @Override
+    public void refreshTop500Stories() {
+        cacheIsDirty = true;
+        for(Map.Entry<Integer, Pair<Item, Boolean>> entry : cachedItems.entrySet()) {
+            cachedItems.put(entry.getKey(), Pair.create(entry.getValue().first, true));
+        }
+    }
 
     @Override
     public Observable<List<Item>> getItems(@NonNull List<Integer> ids) {
@@ -109,21 +115,11 @@ public class ItemRepository implements ItemDataSource {
     @Override
     public Observable<Item> getItem(@NonNull final Integer id) {
 
-        Item cachedItem = getCachedItem(id);
+        Pair<Item, Boolean> cachedItem = getCachedItem(id);
 
-        if (cachedItem != null) {
-            return Observable.just(cachedItem);
+        if (cachedItem != null && !cachedItem.second) {
+            return Observable.just(cachedItem.first);
         }
-
-        Observable<Item> localItem = itemLocalDataSource
-                .getItem(id)
-                .doOnNext(new Action1<Item>() {
-                    @Override
-                    public void call(Item item) {
-                        cachedItems.put(item.id(), item);
-                    }
-                })
-                .first();
 
         Observable<Item> remoteItem = itemRemoteDataSource
                 .getItem(id)
@@ -131,25 +127,36 @@ public class ItemRepository implements ItemDataSource {
                     @Override
                     public void call(Item item) {
                         itemLocalDataSource.saveItem(item);
-                        cachedItems.put(item.id(), item);
-                    }
-                })
-                .first();
-
-        return Observable.concat(localItem, remoteItem)
-                .first()
-                .map(new Func1<Item, Item>() {
-                    @Override
-                    public Item call(Item item) {
-                        if (item == null) {
-                            throw new NoSuchElementException("No item found with id " + id.toString());
-                        }
-                        return item;
+                        cachedItems.put(id, Pair.create(item, false));
                     }
                 });
+
+        if(cachedItem != null && cachedItem.second) {
+            return remoteItem;
+        }
+        else
+        {
+            Observable<Item> localItem = itemLocalDataSource
+                    .getItem(id)
+                    .doOnNext(new Action1<Item>() {
+                        @Override
+                        public void call(Item item) {
+                            cachedItems.put(id, Pair.create(item, false));
+                        }
+                    });
+
+            return Observable.concat(localItem, remoteItem)
+                    .filter(new Func1<Item, Boolean>() {
+                        @Override
+                        public Boolean call(Item item) {
+                            return item != null;
+                        }
+                    })
+                    .first();
+        }
     }
 
-    private Item getCachedItem(@NonNull Integer id) {
+    private Pair<Item, Boolean> getCachedItem(@NonNull Integer id) {
         if (cachedItems == null || cachedItems.isEmpty()) {
             return null;
         } else {
@@ -160,7 +167,7 @@ public class ItemRepository implements ItemDataSource {
     @Override
     public void saveItem(@NonNull Item item) {
         itemLocalDataSource.saveItem(item);
-        cachedItems.put(item.id(), item);
+        cachedItems.put(item.id(), Pair.create(item, false));
     }
 
     @Override
