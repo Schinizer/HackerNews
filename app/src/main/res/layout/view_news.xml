@@ -13,7 +13,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="@dimen/baseline_4x"
         android:clickable="true"
         android:background="@drawable/selectable_accent_background">
 
@@ -44,7 +44,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="@dimen/baseline_2x">
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
@@ -55,8 +55,8 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="@dimen/baseline_1x"
+                    android:layout_marginStart="@dimen/baseline_1x"
                     android:layout_gravity="center_vertical"
                     android:text="@{story.by()}"
                     tools:text="paulpauper"
@@ -65,8 +65,8 @@
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="@dimen/baseline_4x"
+                    android:layout_marginStart="@dimen/baseline_4x"
                     android:tint="@color/cardview_light_background"
                     android:src="@drawable/ic_access_time"/>
 
@@ -75,8 +75,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="@dimen/baseline_1x"
+                    android:layout_marginStart="@dimen/baseline_1x"
                     android:text="@{DateUtils.getRelativeTimeSpanString((Long)(story.time() * 1000L), Calendar.getInstance().getTimeInMillis(), DateUtils.SECOND_IN_MILLIS, 0)}"
                     tools:text="8 hrs"
                     style="@style/TextAppearance.AppCompat.Caption"/>
@@ -89,8 +89,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp">
+            android:layout_marginLeft="@dimen/baseline_4x"
+            android:layout_marginStart="@dimen/baseline_4x">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -110,8 +110,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="@dimen/baseline_2x"
+                    android:layout_marginStart="@dimen/baseline_2x"
                     android:text="@{story.score().toString()}"
                     tools:text="200"
                     style="@style/TextAppearance.AppCompat.Subhead"/>
@@ -123,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="@dimen/baseline_4x">
 
                 <ImageView
                     android:layout_width="18dp"
@@ -137,8 +137,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="@dimen/baseline_2x"
+                    android:layout_marginStart="@dimen/baseline_2x"
                     android:text="@{story.descendants().toString()}"
                     tools:text="20"
                     style="@style/TextAppearance.AppCompat.Subhead"/>
