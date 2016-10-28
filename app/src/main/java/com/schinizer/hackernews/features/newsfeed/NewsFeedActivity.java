@@ -2,6 +2,7 @@ package com.schinizer.hackernews.features.newsfeed;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,9 +25,9 @@ public class NewsFeedActivity extends AppCompatActivity implements NewsFeedContr
     @BindView(R.id.recyclerView)
     SuperRecyclerView recyclerView;
 
-    NewsFeedAdapter adapter;
-
     @Inject NewsFeedPresenter presenter;
+
+    NewsFeedAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +49,19 @@ public class NewsFeedActivity extends AppCompatActivity implements NewsFeedContr
         recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                recyclerView.setupMoreListener(NewsFeedActivity.this, 10);
+                recyclerView.setOnMoreListener(NewsFeedActivity.this);
                 presenter.loadTop500Stories(true);
             }
         });
+        recyclerView.getSwipeToRefresh().setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent));
 
-        recyclerView.setupMoreListener(this, 10);
+        recyclerView.setOnMoreListener(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        recyclerView.setRefreshing(true);
         presenter.subscribe();
     }
 
@@ -70,7 +73,7 @@ public class NewsFeedActivity extends AppCompatActivity implements NewsFeedContr
 
     @Override
     public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-        if(overallItemsCount + presenter.PAGING_SIZE >= 500) { // Top stories only have 500 items
+        if(overallItemsCount + presenter.PAGING_SIZE >= 500) { // Remove paging once we hit 500 stories
             recyclerView.removeMoreListener();
         }
         presenter.pageStories(overallItemsCount);
@@ -88,7 +91,7 @@ public class NewsFeedActivity extends AppCompatActivity implements NewsFeedContr
 
     @Override
     public void showNetworkError() {
-        Snackbar.make(findViewById(android.R.id.content), "Something went wrong..", Snackbar.LENGTH_LONG)
+        Snackbar.make(findViewById(android.R.id.content), R.string.newsfeed_networkerror_text, Snackbar.LENGTH_LONG)
                 .show();
         recyclerView.getSwipeToRefresh().setRefreshing(false);
     }
