@@ -48,7 +48,7 @@
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:tint="@color/cardview_light_background"
+                    android:tint="@color/material_light_white"
                     android:src="@drawable/ic_person"/>
 
                 <TextView
@@ -67,7 +67,7 @@
                     android:layout_height="18dp"
                     android:layout_marginLeft="@dimen/baseline_4x"
                     android:layout_marginStart="@dimen/baseline_4x"
-                    android:tint="@color/cardview_light_background"
+                    android:tint="@color/material_light_white"
                     android:src="@drawable/ic_access_time"/>
 
                 <TextView
@@ -102,7 +102,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center_vertical"
-                    android:tint="@color/cardview_light_background"
+                    android:tint="@color/material_light_white"
                     android:src="@drawable/ic_thumb_up"/>
 
                 <TextView
@@ -129,7 +129,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center_vertical"
-                    android:tint="@color/cardview_light_background"
+                    android:tint="@color/material_light_white"
                     android:src="@drawable/ic_comment"/>
 
                 <TextView

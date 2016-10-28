@@ -1,5 +1,6 @@
 package com.schinizer.hackernews.features.newsfeed;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -8,60 +9,52 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.malinskiy.superrecyclerview.OnMoreListener;
-import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.schinizer.hackernews.HackerNewsApplication;
 import com.schinizer.hackernews.R;
 import com.schinizer.hackernews.data.Item;
+import com.schinizer.hackernews.databinding.ActivityNewsfeedBinding;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class NewsFeedActivity extends AppCompatActivity implements NewsFeedContract.View, OnMoreListener {
 
-    @BindView(R.id.recyclerView)
-    SuperRecyclerView recyclerView;
-
     @Inject NewsFeedPresenter presenter;
+    @Inject NewsFeedAdapter adapter;
 
-    NewsFeedAdapter adapter;
+    ActivityNewsfeedBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_newsfeed);
-
-        ButterKnife.bind(this);
-
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_newsfeed);
+        
         DaggerNewsFeedComponent.builder()
                 .itemRepositoryComponent(((HackerNewsApplication)getApplication()).getItemRepositoryComponent())
                 .newsFeedPresenterModule(new NewsFeedPresenterModule(this))
                 .build()
                 .inject(this);
 
-        adapter = new NewsFeedAdapter();
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        binding.recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                recyclerView.setOnMoreListener(NewsFeedActivity.this);
+                binding.recyclerView.setOnMoreListener(NewsFeedActivity.this);
                 presenter.loadTop500Stories(true);
             }
         });
-        recyclerView.getSwipeToRefresh().setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent));
+        binding.recyclerView.getSwipeToRefresh().setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent));
 
-        recyclerView.setOnMoreListener(this);
+        binding.recyclerView.setOnMoreListener(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        recyclerView.setRefreshing(true);
+        binding.recyclerView.setRefreshing(true);
         presenter.subscribe();
     }
 
@@ -74,7 +67,7 @@ public class NewsFeedActivity extends AppCompatActivity implements NewsFeedContr
     @Override
     public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
         if(overallItemsCount + presenter.PAGING_SIZE >= 500) { // Remove paging once we hit 500 stories
-            recyclerView.removeMoreListener();
+            binding.recyclerView.removeMoreListener();
         }
         presenter.pageStories(overallItemsCount);
     }
@@ -93,6 +86,6 @@ public class NewsFeedActivity extends AppCompatActivity implements NewsFeedContr
     public void showNetworkError() {
         Snackbar.make(findViewById(android.R.id.content), R.string.newsfeed_networkerror_text, Snackbar.LENGTH_LONG)
                 .show();
-        recyclerView.getSwipeToRefresh().setRefreshing(false);
+        binding.recyclerView.getSwipeToRefresh().setRefreshing(false);
     }
 }

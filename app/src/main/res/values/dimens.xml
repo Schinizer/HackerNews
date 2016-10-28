@@ -7,6 +7,6 @@
     <dimen name="baseline_6x">24dp</dimen>
     <dimen name="baseline_7x">28dp</dimen>
     <dimen name="baseline_8x">32dp</dimen>
-    <dimen name="baseline_9x">36p</dimen>
+    <dimen name="baseline_9x">36dp</dimen>
     <dimen name="baseline_10x">40dp</dimen>
 </resources>
