@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.text.format.DateUtils"/>
+        <import type="java.util.Calendar"/>
+        <import type="android.net.Uri"/>
+        <import type="android.text.Html"/>
+        <import type="android.view.View"/>
+        <variable name="story" type="com.schinizer.hackernews.data.Item"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/baseline_2x">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/baseline_2x">
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:tint="@color/material_light_white"
+                    android:src="@drawable/ic_person"/>
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/baseline_1x"
+                    android:layout_marginStart="@dimen/baseline_1x"
+                    android:layout_gravity="center_vertical"
+                    android:text="@{story.deleted() != null ? `Deleted` : story.by()}"
+                    tools:text="paulpauper"
+                    style="@style/TextAppearance.AppCompat.Caption"/>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="@dimen/baseline_4x"
+                    android:layout_marginStart="@dimen/baseline_4x"
+                    android:tint="@color/material_light_white"
+                    android:src="@drawable/ic_access_time"/>
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/baseline_1x"
+                    android:layout_marginStart="@dimen/baseline_1x"
+                    android:text="@{story.time() == null ? `` : DateUtils.getRelativeTimeSpanString((Long)(story.time() * 1000L), Calendar.getInstance().getTimeInMillis(), DateUtils.SECOND_IN_MILLIS, 0)}"
+                    tools:text="8 hrs"
+                    style="@style/TextAppearance.AppCompat.Caption"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/baseline_2x"
+                android:layout_marginRight="@dimen/baseline_2x"
+                android:layout_marginBottom="@dimen/baseline_2x"
+                tools:text="If I remember correctly you can use PAM modules on OS X as well. Perhaps writing one and integrating that with the touch ID button might be possible."
+                android:text="@{Html.fromHtml(story.text() ?? ``)}"
+                android:autoLink="all"
+                style="@style/TextAppearance.AppCompat.Body1"/>
+
+            <LinearLayout
+                android:id="@+id/moreCommentsLayout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/baseline_4x"
+                android:visibility="@{story.kids().size() > 0 ? View.VISIBLE : View.GONE}"
+                android:clickable="true"
+                android:background="@drawable/selectable_accent_background">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@{story.kids().size() + (story.kids().size() > 1 ? ` Comments` : ` Comment`)}"
+                    tools:text="1 Comment"
+                    style="@style/TextAppearance.AppCompat.Body1"/>
+
+                <ImageView
+                    android:id="@+id/expandMoreIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/baseline_1x"
+                    android:layout_marginStart="@dimen/baseline_1x"
+                    android:tint="@color/material_light_white"
+                    android:src="@drawable/ic_expand_less"
+                    tools:src="@drawable/ic_expand_more"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/baseline_2x"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</layout>

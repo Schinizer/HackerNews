@@ -54,14 +54,14 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
     public void clearItems()
     {
-        data.clear();
         notifyItemRangeRemoved(0, data.size());
+        data.clear();
     }
 
     public void addItems(List<Item> items)
     {
-        data.addAll(items);
         notifyItemRangeInserted(data.size(), items.size());
+        data.addAll(items);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder

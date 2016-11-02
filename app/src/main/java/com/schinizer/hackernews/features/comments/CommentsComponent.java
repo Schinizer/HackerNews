@@ -14,4 +14,5 @@ import dagger.Component;
 @Component(dependencies = {ItemRepositoryComponent.class}, modules = {CommentsPresenterModule.class, SchedulersModule.class})
 public interface CommentsComponent {
     void inject(CommentsActivity activity);
+    void inject(CommentsAdapter.ViewHolder viewHolder);
 }

@@ -1,7 +1,5 @@
 package com.schinizer.hackernews.features.comments;
 
-import com.schinizer.hackernews.data.Item;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -12,16 +10,11 @@ import dagger.Provides;
 @Module
 public class CommentsPresenterModule {
     private CommentsContract.View view;
-    private Item item;
 
-    public CommentsPresenterModule(CommentsContract.View view, Item item) {
+    public CommentsPresenterModule(CommentsContract.View view) {
         this.view = view;
-        this.item = item;
     }
 
     @Provides
     CommentsContract.View providesNewsFeedContractView() { return view; }
-
-    @Provides
-    Item providesItem() { return  item; }
 }
