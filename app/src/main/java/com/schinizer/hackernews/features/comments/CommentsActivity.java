@@ -7,12 +7,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.format.DateUtils;
 import android.view.MenuItem;
 
 import com.schinizer.hackernews.HackerNewsApplication;
 import com.schinizer.hackernews.R;
 import com.schinizer.hackernews.data.Item;
 import com.schinizer.hackernews.databinding.ActivityCommentsBinding;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -51,7 +55,9 @@ public class CommentsActivity extends AppCompatActivity implements CommentsContr
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(item.title());
-        getSupportActionBar().setSubtitle(item.by());
+        if(item.by() != null && item.time() != null) {
+            getSupportActionBar().setSubtitle(String.format(Locale.getDefault(), "%s by %s", DateUtils.getRelativeTimeSpanString((item.time() * 1000L), Calendar.getInstance().getTimeInMillis(), DateUtils.SECOND_IN_MILLIS, 0), item.by()));
+        }
     }
 
     @Override

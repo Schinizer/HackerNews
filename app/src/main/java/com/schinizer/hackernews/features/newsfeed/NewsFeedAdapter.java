@@ -66,7 +66,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
-        private ViewNewsBinding dataBinding;
+        public ViewNewsBinding dataBinding;
 
         public ViewHolder(ViewNewsBinding binding) {
             super(binding.getRoot());

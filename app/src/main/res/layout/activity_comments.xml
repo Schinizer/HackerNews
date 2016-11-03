@@ -15,28 +15,6 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical"/>
 
-        <!--android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="com.schinizer.hackernews.features.comments.CommentsActivity">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <include
-                    layout="@layout/view_news"
-                    android:id="@+id/newsLayout"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
-
-        </android.support.v4.widget.NestedScrollView-->
-
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </layout>
