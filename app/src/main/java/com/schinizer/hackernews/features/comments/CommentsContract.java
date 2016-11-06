@@ -12,12 +12,12 @@ public class CommentsContract {
 
     interface View extends BaseView
     {
-        void populateComments(Item comment);
+        void populateComments(Item comment, Boolean forceUpdate);
         void showNetworkError();
     }
 
     interface Presenter extends BasePresenter
     {
-        void loadComment(Integer id);
+        void loadComment(Integer id, Boolean forceUpdate);
     }
 }

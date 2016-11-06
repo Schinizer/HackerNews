@@ -12,8 +12,9 @@ import com.schinizer.hackernews.data.Item;
 import com.schinizer.hackernews.databinding.ViewNewsBinding;
 import com.schinizer.hackernews.features.comments.CommentsActivity;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -23,14 +24,14 @@ import javax.inject.Inject;
 
 public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder>
 {
-    private List<Item> data = new ArrayList<>();
+    private Map<Integer, Item> data = new LinkedHashMap<>();
 
     @Inject
     public NewsFeedAdapter() { }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Item item = data.get(position);
+        final Item item = (Item)data.values().toArray()[position];
         holder.dataBinding.setStory(item);
         holder.dataBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +61,13 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
     public void addItems(List<Item> items)
     {
-        notifyItemRangeInserted(data.size(), items.size());
-        data.addAll(items);
+        int sizeBefore = data.size();
+
+        for(Item item : items) {
+            data.put(item.id(), item);
+        }
+
+        notifyItemRangeInserted(data.size(), data.size() - sizeBefore);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder

@@ -49,7 +49,7 @@ public class CommentsActivity extends AppCompatActivity implements CommentsContr
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                populateComments(item);
+                presenter.loadComment(item.id(), true);
             }
         });
 
@@ -76,7 +76,7 @@ public class CommentsActivity extends AppCompatActivity implements CommentsContr
     public void onResume() {
         super.onResume();
         binding.swipeRefreshLayout.setRefreshing(true);
-        populateComments(item);
+        presenter.loadComment(item.id(), false);
     }
 
     @Override
@@ -86,9 +86,9 @@ public class CommentsActivity extends AppCompatActivity implements CommentsContr
     }
 
     @Override
-    public void populateComments(Item comment) {
+    public void populateComments(Item comment, Boolean forceUpdate) {
         adapter.clearItems();
-        adapter.populateComments(comment);
+        adapter.populateComments(comment, forceUpdate);
         binding.swipeRefreshLayout.setRefreshing(false);
     }
 

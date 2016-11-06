@@ -46,7 +46,7 @@ public class NewsFeedPresenter implements NewsFeedContract.Presenter {
     @Override
     public void loadTop500Stories(final Boolean forceUpdate)
     {
-        if(firstUpdate || forceUpdate) {
+        if(forceUpdate || firstUpdate) {
             itemRepository.refreshTop500Stories();
         }
 

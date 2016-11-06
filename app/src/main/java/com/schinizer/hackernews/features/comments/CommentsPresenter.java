@@ -1,6 +1,7 @@
 package com.schinizer.hackernews.features.comments;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.schinizer.hackernews.data.Item;
 import com.schinizer.hackernews.data.ItemRepository;
@@ -8,10 +9,8 @@ import com.schinizer.hackernews.utility.schedulers.BaseSchedulerProvider;
 
 import javax.inject.Inject;
 
-import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -47,7 +46,11 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     }
 
     @Override
-    public void loadComment(Integer id) {
+    public void loadComment(Integer id, final Boolean forceUpdate) {
+
+        if(forceUpdate) {
+            itemRepository.markItemForRefresh(id);
+        }
 
         subscriptions.clear();
         Subscription subscription = itemRepository.getItem(id)
@@ -61,39 +64,24 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e("Item Repository", "Subscription OnError()", e);
+                        view.showNetworkError();
                     }
 
                     @Override
                     public void onNext(Item item) {
-                        view.populateComments(item);
+                        if(forceUpdate && item.kids() != null)
+                        {
+                            for(Integer id : item.kids())
+                            {
+                                itemRepository.markItemForRefresh(id);
+                            }
+                        }
+
+                        view.populateComments(item, forceUpdate);
                     }
                 });
 
         subscriptions.add(subscription);
-    }
-
-    private Observable<Item> getComments(Integer id)
-    {
-        return itemRepository.getItem(id)
-                .flatMap(new Func1<Item, Observable<Item>>() {
-                    @Override
-                    public Observable<Item> call(Item item) {
-                        if( item.kids() != null) {
-                            Observable<Item> traverse = Observable.from(item.kids())
-                                    .flatMap(new Func1<Integer, Observable<Item>>() {
-                                        @Override
-                                        public Observable<Item> call(Integer id) {
-                                            return itemRepository.getItem(id);
-                                        }
-                                    });
-
-                            return Observable.concat(Observable.just(item), traverse);
-                        }
-                        else {
-                            return Observable.just(item);
-                        }
-                    }
-                });
     }
 }

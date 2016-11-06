@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,6 @@ import com.schinizer.hackernews.databinding.ViewCommentBinding;
 import com.schinizer.hackernews.databinding.ViewNewsBinding;
 import com.schinizer.hackernews.features.newsfeed.NewsFeedAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 /**
@@ -29,9 +27,9 @@ import javax.inject.Inject;
 
 public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Integer> data = new ArrayList<>();
-    Context context;
-    Item root;
+    private SparseBooleanArray data = new SparseBooleanArray();
+    private Context context;
+    private Item root;
 
     final int STORY = 0, COMMENT = 1;
 
@@ -56,8 +54,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             default:
                 ViewHolder commentsView = (ViewHolder)holder;
-                commentsView.dataBinding.setStory(Item.createEmpty(data.get(position)));
-                commentsView.presenter.loadComment(data.get(position));
+                Integer key = root.kids().get(position);
+                commentsView.dataBinding.setStory(Item.createEmpty(key));
+                commentsView.presenter.loadComment(key, data.get(key));
+                data.put(key, false); // Set consume the update after loading
                 break;
         }
 
@@ -95,10 +95,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         data.clear();
     }
 
-    public void populateComments(Item root)
+    public void populateComments(Item root, Boolean forceUpdate)
     {
         this.root = root;
-        data.addAll(root.kids() == null ? new ArrayList<Integer>() : root.kids());
+        if(root.kids() != null) {
+            for(Integer id : root.kids()) {
+                data.put(id, forceUpdate);
+            }
+        }
         notifyItemInserted(root.type().equals("story") ? data.size() : data.size() + 1);
     }
 
@@ -106,6 +110,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     {
         private ViewCommentBinding dataBinding;
         private CommentsAdapter adapter;
+        private Boolean forceUpdate;
 
         @Inject CommentsPresenter presenter;
 
@@ -122,7 +127,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         @Override
-        public void populateComments(final Item comment) {
+        public void populateComments(final Item comment, final Boolean forceUpdate) {
+            this.forceUpdate = forceUpdate;
             dataBinding.setStory(comment);
             dataBinding.recyclerView.setAdapter(adapter);
             dataBinding.recyclerView.setLayoutManager(new LinearLayoutManager(dataBinding.getRoot().getContext()));
@@ -137,10 +143,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                     else
                     {
-                        adapter.populateComments(comment);
+                        adapter.populateComments(comment, ViewHolder.this.forceUpdate);
                         dataBinding.recyclerView.setVisibility(View.VISIBLE);
                         ViewCompat.animate(dataBinding.expandMoreIcon)
                                 .rotation(180.0f);
+                        ViewHolder.this.forceUpdate = false; // Consume the forceUpdate
                     }
                 }
             });

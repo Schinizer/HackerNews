@@ -49,11 +49,14 @@ public class NewsFeedActivity extends AppCompatActivity implements NewsFeedContr
         binding.recyclerView.getSwipeToRefresh().setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent));
 
         binding.recyclerView.setOnMoreListener(this);
+
+        getSupportActionBar().setTitle(R.string.activity_title);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
         binding.recyclerView.setRefreshing(true);
         presenter.subscribe();
     }

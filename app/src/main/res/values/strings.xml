@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Hacker News</string>
     <string name="newsfeed.networkerror.text">Something went wrong…</string>
+    <string name="activity.title">Top Stories</string>
 </resources>
