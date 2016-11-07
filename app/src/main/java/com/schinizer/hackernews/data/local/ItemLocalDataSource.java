@@ -62,6 +62,11 @@ public class ItemLocalDataSource implements ItemDataSource {
     }
 
     @Override
+    public Observable<Boolean> getItemRefresh(@NonNull Integer id) {
+        return Observable.just(sharedPreferences.getBoolean(id.toString() + "_refresh", true));
+    }
+
+    @Override
     public void saveItem(@NonNull Item item) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(item.id().toString(), gson.toJson(item));
@@ -78,5 +83,19 @@ public class ItemLocalDataSource implements ItemDataSource {
     @Override
     public void refreshTop500Stories() {
 
+    }
+
+    @Override
+    public void markItemForRefresh(@NonNull Integer id) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(id.toString() + "_refresh", true);
+        editor.apply();
+    }
+
+    @Override
+    public void markItemRefreshed(@NonNull Integer id) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(id.toString() + "_refresh", false);
+        editor.apply();
     }
 }

@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AutoValue
@@ -59,5 +60,9 @@ public abstract class Item implements Parcelable {
     // tells auto-value-gson to create a TypeAdapter for Foo.
     public static TypeAdapter<Item> typeAdapter(Gson gson) {
         return new AutoValue_Item.GsonTypeAdapter(gson);
+    }
+
+    public static Item createEmpty(Integer id){
+        return new AutoValue_Item("", 0, id, null, null, null, new ArrayList<Integer>(), new ArrayList<Integer>(), 0, "", null, "", "", "");
     }
 }

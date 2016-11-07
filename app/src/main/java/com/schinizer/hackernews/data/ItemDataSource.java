@@ -18,9 +18,14 @@ public interface ItemDataSource {
 
     Observable<Item> getItem(@NonNull Integer id);
 
+    Observable<Boolean> getItemRefresh(@NonNull Integer id);
+
     void saveItem(@NonNull Item item);
 
     void saveTop100Stories(@NonNull List<Integer> ids);
+
+    void markItemForRefresh(@NonNull Integer id);
+    void markItemRefreshed(@NonNull Integer id);
 
     void refreshTop500Stories();
 }

@@ -40,7 +40,7 @@ public class ItemRemoteDataSource implements ItemDataSource {
     @Override
     public Observable<List<Item>> getItems(@NonNull List<Integer> ids) {
         return Observable.from(ids)
-                .flatMap(new Func1<Integer, Observable<Item>>() {
+                .concatMapEager(new Func1<Integer, Observable<Item>>() {
                     @Override
                     public Observable<Item> call(Integer id) {
                         return api.item(id);
@@ -52,6 +52,11 @@ public class ItemRemoteDataSource implements ItemDataSource {
     @Override
     public Observable<List<Integer>> getTop500Stories() {
         return api.top500Stories();
+    }
+
+    @Override
+    public Observable<Boolean> getItemRefresh(@NonNull Integer id) {
+        return Observable.just(true);
     }
 
     // We can't write to remote, so we leave it empty
@@ -67,6 +72,16 @@ public class ItemRemoteDataSource implements ItemDataSource {
 
     @Override
     public void refreshTop500Stories() {
+
+    }
+
+    @Override
+    public void markItemForRefresh(@NonNull Integer id) {
+
+    }
+
+    @Override
+    public void markItemRefreshed(@NonNull Integer id) {
 
     }
 }
