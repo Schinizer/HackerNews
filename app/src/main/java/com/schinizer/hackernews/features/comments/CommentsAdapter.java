@@ -48,19 +48,30 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 newsView.dataBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(root.url())));
+                        v.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(root.url())));
                     }
                 });
                 break;
             default:
                 ViewHolder commentsView = (ViewHolder)holder;
-                Integer key = root.kids().get(position);
+                Integer key = root.kids().get((root != null && root.type().equals("story")) ? position - 1 : position);
                 commentsView.dataBinding.setStory(Item.createEmpty(key));
                 commentsView.presenter.loadComment(key, data.get(key));
                 data.put(key, false); // Set consume the update after loading
                 break;
         }
 
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+
+        if(holder instanceof ViewHolder)
+        {
+            ViewHolder vh = (ViewHolder)holder;
+            vh.presenter.unsubscribe();
+        }
     }
 
     @Override
@@ -86,24 +97,24 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return  (root != null && root.type().equals("story")) ? data.size() + 1 : data.size();
     }
 
     public void clearItems()
     {
-        notifyItemRangeRemoved(0, (root != null && root.type().equals("story")) ? data.size() : data.size() + 1);
+        notifyItemRangeRemoved(0, getItemCount());
         data.clear();
     }
 
-    public void populateComments(Item root, Boolean forceUpdate)
+    public void populateComments(Item item, Boolean forceUpdate)
     {
-        this.root = root;
+        this.root = item;
         if(root.kids() != null) {
             for(Integer id : root.kids()) {
                 data.put(id, forceUpdate);
             }
         }
-        notifyItemInserted(root.type().equals("story") ? data.size() : data.size() + 1);
+        notifyItemRangeInserted(0, getItemCount());
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements CommentsContract.View
@@ -118,6 +129,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(binding.getRoot());
             this.dataBinding = binding;
             this.adapter = new CommentsAdapter(context);
+            dataBinding.recyclerView.setAdapter(adapter);
+            dataBinding.recyclerView.setLayoutManager(new LinearLayoutManager(dataBinding.getRoot().getContext()));
 
             DaggerCommentsComponent.builder()
                     .itemRepositoryComponent(((HackerNewsApplication) context).getItemRepositoryComponent())
@@ -130,8 +143,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public void populateComments(final Item comment, final Boolean forceUpdate) {
             this.forceUpdate = forceUpdate;
             dataBinding.setStory(comment);
-            dataBinding.recyclerView.setAdapter(adapter);
-            dataBinding.recyclerView.setLayoutManager(new LinearLayoutManager(dataBinding.getRoot().getContext()));
             dataBinding.moreCommentsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -151,6 +162,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                 }
             });
+
+            if(adapter.getItemCount() > 0) {
+                dataBinding.recyclerView.setVisibility(View.VISIBLE);
+                ViewCompat.animate(dataBinding.expandMoreIcon)
+                        .rotation(0.0f);
+            }
         }
 
         @Override
