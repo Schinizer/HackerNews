@@ -22,7 +22,7 @@ public interface ItemDataSource {
 
     void saveItem(@NonNull Item item);
 
-    void saveTop100Stories(@NonNull List<Integer> ids);
+    void saveTop500Stories(@NonNull List<Integer> ids);
 
     void markItemForRefresh(@NonNull Integer id);
     void markItemRefreshed(@NonNull Integer id);

@@ -74,7 +74,7 @@ public class ItemLocalDataSource implements ItemDataSource {
     }
 
     @Override
-    public void saveTop100Stories(@NonNull List<Integer> ids) {
+    public void saveTop500Stories(@NonNull List<Integer> ids) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("top500Stories", gson.toJson(ids));
         editor.apply();

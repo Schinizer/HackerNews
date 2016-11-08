@@ -143,8 +143,8 @@ public class ItemRepositoryTest {
     @Test
     public void testSaveTop100Stories()
     {
-        itemRepository.saveTop100Stories(mockIds);
-        verify(localDataSource).saveTop100Stories(ArgumentMatchers.<Integer>anyList());
+        itemRepository.saveTop500Stories(mockIds);
+        verify(localDataSource).saveTop500Stories(ArgumentMatchers.<Integer>anyList());
         assertThat(itemRepository.cachedTop100Stories.size(), is(500));
     }
 

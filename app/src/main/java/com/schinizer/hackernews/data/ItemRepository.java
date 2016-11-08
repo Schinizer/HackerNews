@@ -80,7 +80,7 @@ public class ItemRepository implements ItemDataSource {
                 .doOnNext(new Action1<List<Integer>>() {
                     @Override
                     public void call(List<Integer> ids) {
-                        saveTop100Stories(ids);
+                        saveTop500Stories(ids);
 
                         for(Integer id : ids) {
                             markItemForRefresh(id);
@@ -180,8 +180,8 @@ public class ItemRepository implements ItemDataSource {
     }
 
     @Override
-    public void saveTop100Stories(@NonNull List<Integer> ids) {
-        itemLocalDataSource.saveTop100Stories(ids);
+    public void saveTop500Stories(@NonNull List<Integer> ids) {
+        itemLocalDataSource.saveTop500Stories(ids);
         cachedTop100Stories.clear();
         cachedTop100Stories.addAll(ids);
     }
