@@ -1,7 +1,6 @@
 package com.schinizer.hackernews.features.comments;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.schinizer.hackernews.data.Item;
 import com.schinizer.hackernews.data.ItemRepository;
@@ -64,7 +63,6 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("Item Repository", "Subscription OnError()", e);
                         view.showNetworkError();
                     }
 

@@ -1,7 +1,6 @@
 package com.schinizer.hackernews.features.newsfeed;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.schinizer.hackernews.data.Item;
 import com.schinizer.hackernews.data.ItemRepository;
@@ -68,7 +67,6 @@ public class NewsFeedPresenter implements NewsFeedContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("Item Repository", "Subscription OnError()", e);
                         view.showNetworkError();
                     }
 
@@ -103,7 +101,6 @@ public class NewsFeedPresenter implements NewsFeedContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("Item Repository", "Subscription OnError()", e);
                         view.showNetworkError();
                     }
 

@@ -1,6 +1,7 @@
 package com.schinizer.hackernews.data;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -23,10 +24,14 @@ public class ItemRepository implements ItemDataSource {
     private ItemDataSource itemLocalDataSource;
     private ItemDataSource itemRemoteDataSource;
 
-    private Map<Integer, Item> cachedItems = new LinkedHashMap<>(); // Pair with boolean to notify repository the need to refresh
-    private List<Integer> cachedTop100Stories = new ArrayList<>();
+    @VisibleForTesting
+    Map<Integer, Item> cachedItems = new LinkedHashMap<>(); // Pair with boolean to notify repository the need to refresh
 
-    private Boolean cacheIsDirty = false;
+    @VisibleForTesting
+    List<Integer> cachedTop100Stories = new ArrayList<>();
+
+    @VisibleForTesting
+    Boolean cacheIsDirty = false;
 
     @Inject
     ItemRepository(@Local ItemDataSource itemLocalDataSource,
@@ -75,9 +80,7 @@ public class ItemRepository implements ItemDataSource {
                 .doOnNext(new Action1<List<Integer>>() {
                     @Override
                     public void call(List<Integer> ids) {
-                        cachedTop100Stories.clear();
-                        cachedTop100Stories.addAll(ids);
-                        itemLocalDataSource.saveTop100Stories(ids);
+                        saveTop100Stories(ids);
 
                         for(Integer id : ids) {
                             markItemForRefresh(id);

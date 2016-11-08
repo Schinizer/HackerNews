@@ -65,4 +65,30 @@ public abstract class Item implements Parcelable {
     public static Item createEmpty(Integer id){
         return new AutoValue_Item("", 0, id, null, null, null, new ArrayList<Integer>(), new ArrayList<Integer>(), 0, "", null, "", "", "");
     }
+
+    public static Builder builder()
+    {
+        return new AutoValue_Item.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder
+    {
+        public abstract Builder setBy(String by);
+        public abstract Builder setDescendants(Integer descendants);
+        public abstract Builder setId(Integer id);
+        public abstract Builder setDeleted(Boolean deleted);
+        public abstract Builder setDead(Boolean dead);
+        public abstract Builder setParent(Integer parent);
+        public abstract Builder setKids(List<Integer> kids);
+        public abstract Builder setParts(List<Integer> parts);
+        public abstract Builder setScore(Integer score);
+        public abstract Builder setText(String text);
+        public abstract Builder setTime(Long time);
+        public abstract Builder setTitle(String title);
+        public abstract Builder setType(String type);
+        public abstract Builder setUrl(String url);
+
+        public abstract Item build();
+    }
 }
