@@ -14,9 +14,18 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+            proguardFile 'proguard-rules.pro'
+            proguardFile 'proguard-gson.pro'
+            proguardFile 'proguard-rx-java.pro'
+            proguardFile 'proguard-square-okio.pro'
+            proguardFile 'proguard-square-okhttp3.pro'
+            proguardFile 'proguard-square-retrofit2.pro'
+            proguardFile 'proguard-support-v7-appcompat.pro'
+            proguardFile 'proguard-support-v7-cardview.pro'
         }
     }
 }
@@ -36,6 +45,12 @@ ext{
     fastadapterVersion = '1.7.0'
     stethoVersion = '1.4.1'
     daggerVersion = '2.7'
+    leakcanaryVersion = '1.5'
+    autovalueVersion = '1.3'
+    autovalueparcelVersion = '0.2.5'
+    autovaluegsonVersion = '0.4.3'
+    superrecyclerviewVersion = '1.1.4'
+    materialdesigndimenVersion = '1.4'
 }
 
 dependencies {
@@ -52,11 +67,12 @@ dependencies {
 
     provided "javax.annotation:jsr250-api:1.0"
 
-    apt 'com.google.auto.value:auto-value:1.3'
-    provided 'com.jakewharton.auto.value:auto-value-annotations:1.3'
-    apt 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
-    apt 'com.ryanharter.auto.value:auto-value-gson:0.4.3'
-    provided 'com.ryanharter.auto.value:auto-value-gson:0.4.3'
+    apt "com.google.auto.value:auto-value:${autovalueVersion}"
+    provided "com.jakewharton.auto.value:auto-value-annotations:${autovalueVersion}"
+
+    apt "com.ryanharter.auto.value:auto-value-parcel:${autovalueparcelVersion}"
+    apt "com.ryanharter.auto.value:auto-value-gson:${autovaluegsonVersion}"
+    provided "com.ryanharter.auto.value:auto-value-gson:${autovaluegsonVersion}"
 
     compile "com.google.code.gson:gson:${gsonVersion}"
     compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
@@ -67,20 +83,15 @@ dependencies {
     compile "com.squareup.okhttp3:okhttp:${okhttpVersion}"
     compile "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}"
 
-    compile "com.squareup.picasso:picasso:${picassoVersion}"
-
-    compile "com.jakewharton:butterknife:${butterknifeVersion}"
-    apt "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
-
     compile "com.facebook.stetho:stetho-okhttp3:${stethoVersion}"
 
-    compile 'com.malinskiy:superrecyclerview:1.1.4'
+    compile "com.malinskiy:superrecyclerview:${superrecyclerviewVersion}"
 
-    compile 'com.dmitrymalkovich.android:material-design-dimens:1.4'
+    compile "com.dmitrymalkovich.android:material-design-dimens:${materialdesigndimenVersion}"
 
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakcanaryVersion}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}"
 
     androidTestCompile("com.android.support.test.espresso:espresso-core:${espressoVersion}", {
         exclude group: 'com.android.support', module: 'support-annotations'
