@@ -42,6 +42,16 @@ public class NewsFeedPresenter implements NewsFeedContract.Presenter {
         subscriptions = new CompositeSubscription();
     }
 
+    public Boolean getFirstUpdate()
+    {
+        return firstUpdate;
+    }
+
+    public void setFirstUpdate(Boolean firstUpdate)
+    {
+        this.firstUpdate = firstUpdate;
+    }
+
     @Override
     public void loadTop500Stories(final Boolean forceUpdate)
     {

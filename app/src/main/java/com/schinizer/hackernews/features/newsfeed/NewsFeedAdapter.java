@@ -12,6 +12,7 @@ import com.schinizer.hackernews.data.Item;
 import com.schinizer.hackernews.databinding.ViewNewsBinding;
 import com.schinizer.hackernews.features.comments.CommentsActivity;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,11 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public ArrayList<Item> onSaveInstanceState()
+    {
+        return new ArrayList<>(data.values());
     }
 
     public void clearItems()
