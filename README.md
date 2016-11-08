@@ -3,17 +3,23 @@
 
 A simple read only HackerNews client built using Dagger2, RxJava, Retrofit2 and AutoValue.
 
-### Features
+## Features
 * API 9 -24
 * MVP
 * Repository Design Pattern
 * Dependency Injection
 * Reactive Streams
+* Data Binding
 * Pagination
 * Orientation Change Support
 * Presenter Unit Tests
 * Proguard
 * Travis CI
+
+## Overview
+
+* [News Feed](https://github.com/Schinizer/HackerNews/blob/development/app/src/main/java/com/schinizer/hackernews/features/newsfeed/README.md)
+* [Comments](https://github.com/Schinizer/HackerNews/tree/development/app/src/main/java/com/schinizer/hackernews/features/comments)
 
 ## To Build
 Clone the repo using your preferred client or run the following command

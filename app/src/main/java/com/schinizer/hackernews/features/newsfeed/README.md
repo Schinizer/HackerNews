@@ -1,5 +1,5 @@
 # News Feed Feature
-Reads the top stories api and display top stories.
+Reads the top stories api and display top stories. It features pagination as a solution for scalibility.
 
 ## Implementation details
 The whole activity is implmented using a single `SuperRecyclerView`, inflating `view_news.xml`.
@@ -17,6 +17,8 @@ When the data runs out, `SuperRecyclerView.setOnMoreListener()` is removed to pr
 
 ## Pull to refresh
 `SwipeRefreshLayout.setRefreshListener()` is subscribed to and does a force update via the presenter. This resets the recyclerView and paging is subscribed to again.
+
+The new items are flagged to the `ItemRepository` for refresh and will force a network refresh when they are requested.
 
 ## Orientation change
 `Activity.onSaveInstanceState` is overridden and stores the state of `RecyclerView.LayoutManager` and `RecyclerView.Adapter`
