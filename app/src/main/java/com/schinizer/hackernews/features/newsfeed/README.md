@@ -22,3 +22,6 @@ When the data runs out, `SuperRecyclerView.setOnMoreListener()` is removed to pr
 `Activity.onSaveInstanceState` is overridden and stores the state of `RecyclerView.LayoutManager` and `RecyclerView.Adapter`
 
 `Activity.onRestoreInstanceState` is overriden and the state is retreived. The state is restored on `Activity.onResume`
+
+## Item clicked
+`Item` is stored into an intent and `CommentsActivity` is launched.
