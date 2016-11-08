@@ -18,7 +18,7 @@ A simple read only HackerNews client built using Dagger2, RxJava, Retrofit2 and 
 
 ## Overview
 
-* [News Feed](https://github.com/Schinizer/HackerNews/blob/development/app/src/main/java/com/schinizer/hackernews/features/newsfeed/README.md)
+* [News Feed](https://github.com/Schinizer/HackerNews/blob/development/app/src/main/java/com/schinizer/hackernews/features/newsfeed)
 * [Comments](https://github.com/Schinizer/HackerNews/tree/development/app/src/main/java/com/schinizer/hackernews/features/comments)
 
 ## To Build
